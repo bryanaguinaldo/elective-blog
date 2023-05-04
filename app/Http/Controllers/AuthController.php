@@ -39,11 +39,12 @@ class AuthController extends Controller
         $validated['last_name'] = Str::title($request->last_name);
         $validated['username'] = Str::lower($request->username);
 
-        User::create($validated);
+        User::create($validated)->sendEmailVerificationNotification();
 
         session()->flash('status', 1);
         session()->flash('title', 'Registration Successful!');
         session()->flash('message', 'Please check your email for verification.');
+
         return response()->json([
             'title' => 'Registration Successful',
             'message' => 'Please check your email for verification.'

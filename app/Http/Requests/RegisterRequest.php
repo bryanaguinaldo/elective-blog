@@ -30,9 +30,16 @@ class RegisterRequest extends FormRequest
         return [
             'first_name' => "required",
             'last_name' => "required",
-            'email' => "required|email:rfc,dns|unique:users",
-            'username' => "required||min:4|max:16|unique:users",
-            'password' => "required|confirmed",
+            'email' => "required|email:rfc,dns|ends_with:gmail.com,yahoo.com|unique:users",
+            'username' => "required||min:4|max:16|alpha_num:ascii|unique:users",
+            'password' => "required|min:6|confirmed",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.ends_with' => "Supported emails: Gmail, Yahoo"
         ];
     }
 }
