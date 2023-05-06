@@ -3,16 +3,16 @@
 @section('content')
     <div class="main grid grid-cols-12 w-full h-screen">
         <!-- Left -->
-        <div class="hidden lg:block lg:col-span-6 h-full" style="background-image: url('https://picsum.photos/1920/1080')">
+        <div class="hidden lg:block lg:col-span-6 h-full"
+            style="background-image: url('{{ asset('assets/images/' . $image['picture']) }}'); background-size: cover">
             <div class="w-full h-full bg-black bg-opacity-75">
                 <div class="flex flex-col w-full h-full px-4 pb-10 text-white text-center justify-end">
-                    <h3 class="font-bold text-[32px]">Pagsanjan Falls</h3>
+                    <h3 class="font-bold text-[32px]">{{ $title }}</h3>
                     <p>
-                        Mayon, also known as Mount Mayon and Mayon Volcano, is an active stratovolcano in the province of
-                        Albay in
-                        Bicol, Philippines. A popular tourist spot, it is renowned for its "perfect cone" because of its
-                        symmetric
-                        conical shape, and is regarded as very sacred in Philippine mythology.
+                        {{ $description }}
+                    </p>
+                    <p class="text-gray-500 mt-2">
+                        Photo by: {{ $image['taken_by'] }}
                     </p>
                 </div>
             </div>

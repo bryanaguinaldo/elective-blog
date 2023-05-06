@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -53,5 +55,20 @@ class AuthController extends Controller
 
     public function logout()
     {
+        auth()->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect('login');
+    }
+
+    public function sendVerificationEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    }
+    public function verifyEmailAddress(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect('/u/' . Auth::user()->username);
     }
 }

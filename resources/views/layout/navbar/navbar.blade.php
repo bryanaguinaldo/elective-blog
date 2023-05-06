@@ -32,7 +32,7 @@
                     Settings</a>
             </li>
             <li>
-                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100"><i
+                <a href="{{ route('logout') }}" class="block px-4 py-2 text-red-600 hover:bg-gray-100"><i
                         class="fa-solid fa-power-off"></i> Logout</a>
             </li>
         </ul>
@@ -80,7 +80,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center p-2 text-red-600 rounded-lg hover:bg-gray-100">
+                        <a href="{{ route('logout') }}"
+                            class="flex items-center p-2 text-red-600 rounded-lg hover:bg-gray-100">
                             <i class="fa-solid fa-power-off"></i>
                             <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
                         </a>

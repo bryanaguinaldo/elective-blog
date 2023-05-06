@@ -42,36 +42,61 @@
                 Create Post
             </button>
         </div>
-        <!-- User posts -->
-        <div class="flex flex-col items-center mt-8 mx-6">
-            <!-- Post 1 -->
-            <div class="w-full lg:w-[690px] h-max bg-white drop-shadow-lg p-4 mb-4">
-                <!-- User -->
-                <div class="flex items-center">
-                    <div class="w-[40px] h-[40px] bg-cover bg-red-500 rounded-full">
-                        <img class="h-full w-full rounded-full" src="{{ asset('assets/images/duck.jpeg') }}" />
-                    </div>
-                    <div class="mx-4">
-                        <div class="font-bold text-[14px] md:text-base">{{ $user->first_name . ' ' . $user->last_name }}
+        @foreach ($user->posts as $post)
+            <!-- Post -->
+            <div class="flex flex-col items-center mt-8 mx-6">
+                <!-- Post 1 -->
+                <div class="w-full lg:w-[690px] h-max bg-white drop-shadow-lg p-4 mb-4">
+                    <!-- User -->
+                    <div class="flex w-full justify-between">
+                        <div class="flex items-center">
+                            <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
+                                style="background-image: url('https://picsum.photos/100/100')"></div>
+                            <div class="mx-4">
+                                <div class="font-bold text-[14px] md:text-base">
+                                    {{ $user->first_name . ' ' . $user->last_name }}</div>
+                                <div class="text-neutral-500 text-[14px] md:text-base">
+                                    {{-- {{ \Carbon\Carbon::now()->gt(\Carbon\Carbon::create($post->created_at - "7 days")) $post->created_at->diffForHumans() }}</div> --}}
+                                    {{ \Carbon\Carbon::parse('7 days after April 1, 2023') }}
+                                </div>
+                            </div>
+                            <!-- Menu Dropdown -->
+                            <button id="dropdownMenuButton" data-dropdown-toggle="menu-dropdown"
+                                class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
+                                type="button">
+                                <i class="fa-solid fa-ellipsis-h"></i>
+                            </button>
+                            <!-- User dropdown component -->
+                            <div id="menu-dropdown"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <a href="#" data-modal-target="createpost-modal"
+                                            data-modal-toggle="createpost-modal" class="block px-4 py-2 hover:bg-gray-100"
+                                            type="button"><i class="fa-solid fa-edit"></i> Edit post</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100"><i
+                                                class="fa-solid fa-trash-can"></i> Delete post</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="text-neutral-500 text-[14px] md:text-base">69 minutes ago</div>
+
+                        <!-- Title + Caption + Pic -->
+                        <div class="flex flex-col mt-4">
+                            <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
+                            <p class="mt-2 text-[14px] md:text-base">
+                                {{ $post->content }}
+                            </p>
+                            <button data-modal-target="viewpost-modal" data-modal-toggle="viewpost-modal"
+                                class="w-full mt-4 aspect-square bg-cover"
+                                style="background-image: url('{{ $post->photo }}')"></button>
+                        </div>
                     </div>
                 </div>
-                <!-- Title + Caption + Pic -->
-                <div class="flex flex-col mt-4">
-                    <p class="text-[18px] md:text-xl font-bold">Sachi the Duck</p>
-                    <p class="mt-2 text-[14px] md:text-base">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip
-                        ex ea commodo consequat.
-                    </p>
-                    <div class="w-full h-[300px] mt-4 bg-red-500 bg-cover"></div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 @endsection
 
