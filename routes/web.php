@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChangePictureController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -36,4 +38,25 @@ Route::middleware("auth", "verified")->group(function () {
 
     Route::get("/home", [ViewController::class, "home"])->name('home');
     Route::get("/u/{username}", [ViewController::class, "profile"])->name("profile");
+
+    Route::post("/post", [ProfileController::class, "store"])->name("post.store");
+    Route::get("/post/{id}", [ProfileController::class, "show"])->name("post.show");
+    Route::post("/post/delete/{id}", [ProfileController::class, "destroy"])->name("post.destroy");
+
+
+    // BEGIN: Change Thumbnail Resource Requests
+    Route::group(['prefix' => 'thumbnail'], function () {
+        Route::post('store', [ChangeThumbnailController::class, 'store'])->name('thumbnail.store'); // CREATE
+        Route::post('show', [ChangeThumbnailController::class, 'show'])->name('thumbnail.show'); // READ
+        Route::post('update', [ChangeThumbnailController::class, 'update'])->name('thumbnail.update'); // UPDATE
+        Route::post('destroy', [ChangeThumbnailController::class, 'destroy'])->name('thumbnail.destroy'); // DELETE
+    });
+
+    // BEGIN: Change Picture Resource Requests
+    Route::group(['prefix' => 'image'], function () {
+        Route::post('store', [ChangePictureController::class, 'store'])->name('image.store'); // CREATE
+        Route::post('show', [ChangePictureController::class, 'show'])->name('image.show'); // READ
+        Route::post('update', [ChangePictureController::class, 'update'])->name('image.update'); // UPDATE
+        Route::post('destroy', [ChangePictureController::class, 'destroy'])->name('image.destroy'); // DELETE
+    });
 });

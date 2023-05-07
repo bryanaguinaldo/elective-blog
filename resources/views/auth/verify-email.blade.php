@@ -22,7 +22,7 @@
             <form action="{{ route('verification.send') }}" method="POST">
                 @csrf
                 <h2 class="font-bold text-[20px] md:text-[32px]">Email Verification</h2>
-                <p class="text-xs md:text-base">We have sent an email to xxx@gmail.com</p>
+                <p class="text-xs md:text-base">We have sent an email to {{ Auth::user()->email }}</p>
                 <p class="text-xs md:text-base">Please verify your account to continue.</p>
                 <br>
                 <p class="text-xs md:text-base">Did not receive an email?</p>

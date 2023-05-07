@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id()->from(232110);
-            $table->bigInteger("user_id");
-            $table->string("title");
-            $table->longText("content");
-            $table->string("photo")->nullable();
-            $table->softDeletes();
+        Schema::create('thumbnails', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->string('media');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('thumbnails');
     }
 };
