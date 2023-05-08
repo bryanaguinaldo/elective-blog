@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ViewController extends Controller
 {
@@ -153,15 +155,23 @@ class ViewController extends Controller
 
     public function profile($username)
     {
+        $others = User::where('id', '!=', Auth::user()->id)->inRandomOrder()->limit(5)->get();
         $user = User::where("username", $username)->first();
         if (!$user == null) {
-            return view("profile")->with(["user" => $user]);
+            return view("profile")->with(["user" => $user, 'others' => $others]);
         }
         return abort(404);
     }
 
     public function home()
     {
-        return view('home');
+        $others = User::where('id', '!=', Auth::user()->id)->inRandomOrder()->limit(5)->get();
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate(3);
+        return view('home')->with(['posts' => $posts, 'others' => $others]);
+    }
+
+    public function settings()
+    {
+        return view('settings');
     }
 }

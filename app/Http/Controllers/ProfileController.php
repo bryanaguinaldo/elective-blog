@@ -78,11 +78,11 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        $post = Post::with('user')->where('id', $id)->first();
+        $post = Post::with('user')->where('id', $request->post_id)->first();
         if (Auth::user()->id == $post->user->id) {
-            $post->destroy($id);
+            $post->destroy($request->post_id);
         }
         return redirect('/u/' . Auth::user()->username);
     }

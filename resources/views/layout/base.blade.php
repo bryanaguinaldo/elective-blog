@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    @include('layout.navbar.navbar')
+    @include('layout.navbar.sidebar')
     @yield('content')
     @yield('modal')
     @yield('scripts')

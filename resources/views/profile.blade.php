@@ -9,125 +9,176 @@
 @endsection
 
 @section('content')
-    <div class="w-[90%] md:w-[80%] h-max mt-[16px] mx-[5%] md:mx-[10%]">
-        <!-- Cover photo -->
-        <div class="w-full h-[180px] md:h-[256px] rounded bg-cover"
-            style="background-image: url(https://picsum.photos/1980/300)">
-            <div class="flex flex-col w-full h-full rounded bg-black bg-opacity-75">
-                <!-- Settings btn -->
-                <a href="#" class="flex justify-end p-4 text-white"><i class="fa-solid fa-cog"></i></a>
-                <!-- Profile photo -->
-                <div class="flex translate-y-20 w-[100px] md:w-[190px] h-[100px] md:h-[190px] rounded-full bg-black ml-6 border-4 md:border-8 border-white drop-shadow-lg items-end justify-end"
-                    style="background-image: url('{{ asset('storage/static/images') . '/' . $user->profile_picture }}'); background-size: cover">
-                    <!-- Edit profile photo btn -->
-                    @if (Auth::user()->username == $user->username)
-                        <form id="image-upload" method="POST">
-                            @csrf
-                            <input type="file" id="dp-file-upload" accept="image/*,image/heif,image/heic" name="image"
-                                hidden>
-                        </form>
-                        <button data-modal-target="changedp-modal" data-modal-toggle="changedp-modal"
-                            id="show-changedp-modal" hidden></button>
-                        <button class="w-[40px] h-[40px] bg-white rounded-full drop-shadow-lg change-dp">
-                            <i class="fa-solid fa-camera"></i>
-                        </button>
-                    @endif
+    <div class="p-6 md:p-10 sm:ml-64 lg:ml-96 w-max-full h-screen">
+        <div class="grid grid-cols-12 gap-6 w-max-full">
+            <div class="col-span-12 xl:col-span-7 h-max">
+                <!-- Cover photo -->
+                <div class="w-full h-[180px] md:h-[256px] rounded bg-cover"
+                    style="background-image: url(https://picsum.photos/1980/300)">
+                    <div class="flex flex-col w-full h-full rounded bg-black bg-opacity-75">
+                        <!-- Settings btn -->
+                        <a href="#" class="flex justify-end p-4 text-white"><i class="fa-solid fa-cog"></i></a>
+                        <!-- Profile photo -->
+                        <div class="flex translate-y-20 w-[100px] md:w-[190px] h-[100px] md:h-[190px] rounded-full bg-black ml-6 border-4 md:border-8 border-white drop-shadow-lg items-end justify-end"
+                            style="background-image: url('{{ asset('storage/static/images') . '/' . $user->profile_picture }}'); background-size: cover">
+                            <!-- Edit profile photo btn -->
+                            @if (Auth::user()->username == $user->username)
+                                <form id="image-upload" method="POST">
+                                    @csrf
+                                    <input type="file" id="dp-file-upload" accept="image/*,image/heif,image/heic"
+                                        name="image" hidden>
+                                </form>
+                                <button data-modal-target="changedp-modal" data-modal-toggle="changedp-modal"
+                                    id="show-changedp-modal" hidden></button>
+                                <button class="w-[40px] h-[40px] bg-white rounded-full drop-shadow-lg change-dp">
+                                    <i class="fa-solid fa-camera"></i>
+                                </button>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- User info -->
-        <div class="mt-20 mx-6">
-            <div class="flex items-center space-x-2">
-                <p class="font-bold text-[18px] md:text-[32px]">{{ $user->first_name . ' ' . $user->last_name }} </p>
-                @if ($user->verified == 1)
-                    <img src="{{ asset('assets/images/verified.svg') }}" class="h-6 w-6" />
-                @endif
-            </div>
-            <p class="text-neutral-500 text-[14px] md:text-base">{{ '@' . $user->username }}</p>
-            <p class="mt-4 text-[14px] md:text-base">
-                {{ $user->description }}
-            </p>
-            {{-- <p class="mt-4 text-neutral-500 text-[14px] md:text-base">
+                <!-- User info -->
+                <div class="mt-20 mx-6">
+                    <div class="flex items-center space-x-2">
+                        <p class="font-bold text-[18px] md:text-[32px]">{{ $user->first_name . ' ' . $user->last_name }}
+                        </p>
+                        @if ($user->verified == 1)
+                            <img src="{{ asset('assets/images/verified.svg') }}" class="h-6 w-6" />
+                        @endif
+                    </div>
+                    <p class="text-neutral-500 text-[14px] md:text-base">{{ '@' . $user->username }}</p>
+                    <p class="mt-4 mb-4 text-[14px] md:text-base">
+                        {{ $user->description }}
+                    </p>
+                    {{-- <p class="text-neutral-500 text-[14px] md:text-base">
                 <i class="fa-solid fa-location-dot"></i> Malolos, Bulacan, Philippines
             </p> --}}
-        </div>
-        <!-- Create post btn -->
-        @if (Auth::user()->username == $user->username)
-            <div class="mt-4 mx-6 w-max h-max mb-8">
-                <button data-modal-target="createpost-modal" data-modal-toggle="createpost-modal"
-                    class="block w-max md:w-[256px] md:h-[48px] text-[14px] md:text-base font-bold text-white bg-indigo-900 hover:bg-indigo-950 focus:outline-none rounded px-5 py-2.5 text-center"
-                    type="button">
-                    Create Post
-                </button>
-            </div>
-        @endif
-        @foreach ($user->posts->reverse() as $post)
-            <!-- Post -->
-            <div class="flex flex-col items-center mb-2 mx-6">
-                <!-- Post 1 -->
-                <div class="w-full lg:w-[690px] h-max bg-white drop-shadow-lg p-4 mb-2">
-                    <!-- User -->
-                    <div class="flex w-full justify-between">
-                        <div class="flex items-center">
-                            <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
-                                style="background-image: url('{{ asset('storage/static/images') . '/' . $user->profile_picture }}')">
-                            </div>
-                            <div class="mx-4">
-                                <div class="flex items-center font-bold text-[14px] md:text-base">
-                                    {{ $user->first_name . ' ' . $user->last_name }}
-                                    @if ($user->verified == 1)
-                                        <img src="{{ asset('assets/images/verified.svg') }}" class="ml-2 h-4 w-4" />
-                                    @endif
+                </div>
+                <!-- Create post btn -->
+                @if (Auth::user()->username == $user->username)
+                    <div class="mt-4 mx-6 w-max h-max mb-8">
+                        <button data-modal-target="createpost-modal" data-modal-toggle="createpost-modal"
+                            class="block w-max md:w-[256px] md:h-[48px] text-[14px] md:text-base font-bold text-white bg-indigo-900 hover:bg-indigo-950 focus:outline-none rounded px-5 py-2.5 text-center"
+                            type="button">
+                            Create Post
+                        </button>
+                    </div>
+                @endif
+                @foreach ($user->posts->reverse() as $post)
+                    <!-- Post -->
+                    <div>
+                        <div class="flex flex-col items-center mb-2 mx-6">
+                            <!-- Post {{ $post->id }} -->
+                            <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
+                                <!-- User -->
+                                <div class="flex w-full justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
+                                            style="background-image: url('{{ asset('storage/static/images') . '/' . $post->user->profile_picture }}')">
+                                        </div>
+                                        <div class="mx-4">
+                                            <div class="flex items-center font-bold text-[14px] md:text-base">
+                                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                                                @if ($user->verified == 1)
+                                                    <img src="{{ asset('assets/images/verified.svg') }}"
+                                                        class="ml-2 h-4 w-4" />
+                                                @endif
+                                            </div>
+                                            <div class="text-neutral-500 text-[14px] md:text-base">
+                                                {{ \Carbon\Carbon::now()->subDays(7) >= \Carbon\Carbon::parse($post->created_at) ? $post->created_at->format('F d, Y') : $post->created_at->diffForHumans() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Menu Dropdown -->
+                                    <button id="dropdownMenuButton{{ $post->id }}"
+                                        data-dropdown-toggle="menu-dropdown{{ $post->id }}"
+                                        class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
+                                        type="button">
+                                        <i class="fa-solid fa-ellipsis-h"></i>
+                                    </button>
+                                    <!-- User dropdown component -->
+                                    <div id="menu-dropdown{{ $post->id }}"
+                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <button href="#" data-modal-target="editpost-modal"
+                                                    data-modal-toggle="editpost-modal"
+                                                    class="block w-full text-start px-4 py-2 hover:bg-gray-100"
+                                                    type="button">
+                                                    <i class="fa-solid fa-edit"></i> Edit post
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button data-modal-target="confirmdelete-modal"
+                                                    data-id="{{ $post->id }}" data-modal-toggle="confirmdelete-modal"
+                                                    id="delete_post"
+                                                    class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
+                                                    type="button">
+                                                    <i class="fa-solid fa-trash-can"></i> Delete post
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="text-neutral-500 text-[14px] md:text-base">
-                                    {{ \Carbon\Carbon::now()->subDays(7) >= \Carbon\Carbon::parse($post->created_at) ? $post->created_at->format('F d, Y') : $post->created_at->diffForHumans() }}
+                                <!-- Title + Caption + Pic -->
+                                <div class="flex flex-col mt-4">
+                                    <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
+                                    <p class="mt-2 text-[14px] md:text-base break-words">
+                                        {{ $post->content }}
+                                    </p>
+                                    @if ($post->photo != null)
+                                        <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
+                                            class="w-full mt-4 aspect-square bg-cover"
+                                            style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        @if ($user->id == Auth::user()->id)
-                            <!-- Menu Dropdown -->
-                            <button id="dropdownMenuButton" data-dropdown-toggle="menu-dropdown"
-                                class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
-                                type="button">
-                                <i class="fa-solid fa-ellipsis-h"></i>
-                            </button>
-                            <!-- User dropdown component -->
-                            <div id="menu-dropdown"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="dropdownMenuButton">
-                                    <li>
-                                        <a href="#" data-modal-target="editpost-modal"
-                                            data-modal-toggle="editpost-modal" class="block px-4 py-2 hover:bg-gray-100"
-                                            type="button"><i class="fa-solid fa-edit"></i> Edit post</a>
-                                    </li>
-                                    <form action="{{ route('post.destroy', ['id' => $post->id]) }}" method="POST">
-                                        @csrf
-                                        <li>
-                                            <button type="submit"
-                                                class="block px-4 py-2 text-red-600 hover:bg-gray-100 w-full"><i
-                                                    class="fa-solid fa-trash-can"></i> Delete post</button>
-                                        </li>
-                                    </form>
-                                </ul>
-                            </div>
-                        @endif
                     </div>
-                    <!-- Title + Caption + Pic -->
-                    <div class="flex flex-col mt-4">
-                        <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
-                        <p class="mt-2 text-[14px] md:text-base break-words">
-                            {{ $post->content }}
-                        </p>
-                        @if ($post->photo != null)
-                            <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
-                                class="w-full mt-4 aspect-square bg-cover"
-                                style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
-                        @endif
-                    </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+            <!-- Other users -->
+            <div class="hidden xl:flex lg:flex-col lg:col-span-5">
+                <div class="mb-4">
+                    <p class="text-[18px] md:text-xl font-bold">Check out other users</p>
+                </div>
+                @foreach ($others as $other)
+                    <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
+                        <div class="flex flex-col w-full">
+                            <!-- User and view profile btn -->
+                            <div class="flex w-full justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-[40px] h-[40px] aspect-square bg-cover bg-black rounded-full"
+                                        style="background-image: url('{{ asset('storage/static/images') . '/' . $other->profile_picture }}'); background-size: cover">
+                                    </div>
+                                    <div class="mx-4">
+                                        <div class="font-bold text-[14px] md:text-base">
+                                            {{ $other->first_name . ' ' . $other->last_name }}</div>
+                                        <div class="text-neutral-500 text-[14px] md:text-base">{{ '@' . $other->username }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{{ route('profile', ['username' => $other->username]) }}">
+                                    <button
+                                        class="block w-max h-max text-[14px] md:text-base font-bold text-white bg-indigo-900 hover:bg-indigo-950 focus:outline-none rounded px-5 py-2.5 text-center">
+                                        <span class="text-sm">View profile</span>
+                                    </button>
+                                </a>
+                            </div>
+                            {{-- <!-- 3 images -->
+                        <div class="grid grid-cols-3 gap-2 w-full h-full mt-6">
+                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
+                                style="background-image: url(https://picsum.photos/1920/1080?random=2)"></div>
+                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
+                                style="background-image: url(https://picsum.photos/1920/1080?random=3)"></div>
+                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
+                                style="background-image: url(https://picsum.photos/1920/1080?random=4)"></div>
+                        </div> --}}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -158,8 +209,8 @@
                             class="md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-neutral-200 text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded">
                             <i class="flex fa-solid fa-file-image text-2xl"></i><span>Add Image</span>
                         </button> --}}
-                                <input type="file" id="cp-fi" accept="image/*,image/heif,image/heic" name="photo"
-                                    hidden />
+                                <input type="file" id="cp-fi" accept="image/*,image/heif,image/heic"
+                                    name="photo" hidden />
                                 <button
                                     class="xcjsddc group md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-cover text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded"
                                     style="background-image: url('{{ asset('assets/images/add-image.png') }}')">
@@ -173,14 +224,16 @@
                                     <input id="create-title"
                                         class="p-2 h-[56px] text-lg bg-neutral-200 text-neutral-500 rounded focus:ring-4 focus:outline-none focus:ring-blue-300"
                                         placeholder="Enter blog title" name="title" />
-                                    <span class="validation-error error-title text-red-500"> {{ $errors->first('title') }}
+                                    <span class="validation-error error-title text-red-500">
+                                        {{ $errors->first('title') }}
                                     </span>
                                     <textarea id="create-description"
                                         class="p-2 h-full text-lg bg-neutral-200 text-neutral-500 mt-2 md:mt-4 border-none rounded focus:ring-4 focus:outline-none focus:ring-blue-300 resize-none"
                                         placeholder="Add a description" name="content"></textarea>
                                     <span class="validation-error error-content text-red-500">
                                         {{ $errors->first('content') }} </span>
-                                    <span class="validation-error error-photo text-red-500"> {{ $errors->first('photo') }}
+                                    <span class="validation-error error-photo text-red-500">
+                                        {{ $errors->first('photo') }}
                                     </span>
                                 </div>
                             </div>
@@ -340,6 +393,45 @@
             </div>
         </div>
     </div>
+    <!-- Delete modal -->
+    <div id="confirmdelete-modal" tabindex="-1"
+        class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <button type="button"
+                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    data-modal-hide="confirmdelete-modal">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete this post?</h3>
+                    <form action="{{ route('post.destroy') }}" method="POST">
+                        @csrf
+                        <input type="text" id="post_id" name="post_id" hidden>
+                        <button type=submit
+                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Confirm
+                        </button>
+                    </form>
+                    <button data-modal-hide="confirmdelete-modal" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -484,6 +576,13 @@
             $(".change-dp").click(function(e) {
                 e.preventDefault();
                 $("#dp-file-upload").click();
+            });
+
+            $("button#delete_post").on('click', function(e) {
+                e.preventDefault();
+                $val = $(this).data('id')
+                $("#post_id").val($val);
+                console.log($val)
             });
 
             $("#dp-file-upload").off().change(function(e) {

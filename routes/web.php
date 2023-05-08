@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangePictureController;
+use App\Http\Controllers\MiscFunctionsController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -36,12 +37,17 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth", "verified")->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get("/home", [ViewController::class, "home"])->name('home');
+    Route::get("/", [ViewController::class, "home"])->name('home');
     Route::get("/u/{username}", [ViewController::class, "profile"])->name("profile");
+
+    Route::get("/settings", [ViewController::class, "settings"])->name("settings");
+    Route::post("/settings/update/password", [MiscFunctionsController::class, "changePassword"])->name("settings.update_password");
+    Route::post("/settings/update/information", [MiscFunctionsController::class, "changeInformation"])->name("settings.update_information");
+    Route::post("/settings/update/bio", [MiscFunctionsController::class, "changeBio"])->name("settings.update_bio");
 
     Route::post("/post", [ProfileController::class, "store"])->name("post.store");
     Route::get("/post/{id}", [ProfileController::class, "show"])->name("post.show");
-    Route::post("/post/delete/{id}", [ProfileController::class, "destroy"])->name("post.destroy");
+    Route::post("/delete/post", [ProfileController::class, "destroy"])->name("post.destroy");
 
 
     // BEGIN: Change Thumbnail Resource Requests

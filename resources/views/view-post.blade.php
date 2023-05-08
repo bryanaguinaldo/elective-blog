@@ -12,7 +12,7 @@
             <!-- Caption -->
             <div class="col-span-5 bg-white h-full px-6 sm:px-12 py-6 overflow-y-scroll">
                 <div class="flex justify-end">
-                    <a href="{{ route('profile', ['username' => $post->user->username]) }}">
+                    <a href="{{ url()->previous() == request()->url() ? route('home') : url()->previous() }}">
                         <button type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                             data-modal-hide="viewpost-modal">
