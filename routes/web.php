@@ -47,6 +47,8 @@ Route::middleware("auth", "verified")->group(function () {
 
     Route::post("/post", [ProfileController::class, "store"])->name("post.store");
     Route::get("/post/{id}", [ProfileController::class, "show"])->name("post.show");
+    Route::post("/edit/post", [ProfileController::class, "edit"])->name("post.edit");
+    Route::post("/update/post/{id}", [ProfileController::class, "update"])->name("post.update");
     Route::post("/delete/post", [ProfileController::class, "destroy"])->name("post.destroy");
 
 

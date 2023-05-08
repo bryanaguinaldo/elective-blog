@@ -24,7 +24,7 @@ class UserInformationRequest extends FormRequest
         return [
             'first_name' => "required",
             'last_name' => "required",
-            'username' => "required||min:4|max:16|alpha_num:ascii|unique:users",
+            'username' => "required||min:4|max:16|alpha_num:ascii|unique:users,username," . auth()->user()->id,
         ];
     }
 }

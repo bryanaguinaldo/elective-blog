@@ -26,11 +26,7 @@ class MiscFunctionsController extends Controller
 
     public function changeInformation(UserInformationRequest $request)
     {
-        if ($request->validated()["username"] == Auth::user()->username) {
-            User::where('id', Auth::user()->id)->update($request->validated()->except('username'));
-        } else {
-            User::where('id', Auth::user()->id)->update($request->validated());
-        }
+        User::where('id', Auth::user()->id)->update($request->validated());
 
         return redirect()->back()->with([
             'status' => 1,

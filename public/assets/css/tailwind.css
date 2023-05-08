@@ -2002,6 +2002,10 @@ input:checked + .toggle-bg {
   text-transform: capitalize;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .leading-6 {
   line-height: 1.5rem;
 }

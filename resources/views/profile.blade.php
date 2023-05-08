@@ -89,42 +89,45 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Menu Dropdown -->
-                                    <button id="dropdownMenuButton{{ $post->id }}"
-                                        data-dropdown-toggle="menu-dropdown{{ $post->id }}"
-                                        class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
-                                        type="button">
-                                        <i class="fa-solid fa-ellipsis-h"></i>
-                                    </button>
-                                    <!-- User dropdown component -->
-                                    <div id="menu-dropdown{{ $post->id }}"
-                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
-                                            <li>
-                                                <button href="#" data-modal-target="editpost-modal"
-                                                    data-modal-toggle="editpost-modal"
-                                                    class="block w-full text-start px-4 py-2 hover:bg-gray-100"
-                                                    type="button">
-                                                    <i class="fa-solid fa-edit"></i> Edit post
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button data-modal-target="confirmdelete-modal"
-                                                    data-id="{{ $post->id }}" data-modal-toggle="confirmdelete-modal"
-                                                    id="delete_post"
-                                                    class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
-                                                    type="button">
-                                                    <i class="fa-solid fa-trash-can"></i> Delete post
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    @if ($post->user->id == Auth::user()->id)
+                                        <!-- Menu Dropdown -->
+                                        <button id="dropdownMenuButton{{ $post->id }}"
+                                            data-dropdown-toggle="menu-dropdown{{ $post->id }}"
+                                            class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
+                                            type="button">
+                                            <i class="fa-solid fa-ellipsis-h"></i>
+                                        </button>
+                                        <!-- User dropdown component -->
+                                        <div id="menu-dropdown{{ $post->id }}"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <button type="hidden" data-modal-target="editpost-modal"
+                                                        data-modal-toggle="editpost-modal" id="edit_trigger"></button>
+                                                    <button data-id="{{ $post->id }}" id="edit_post"
+                                                        class="block w-full text-start px-4 py-2 hover:bg-gray-100"
+                                                        type="button">
+                                                        <i class="fa-solid fa-edit"></i> Edit post
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button data-modal-target="confirmdelete-modal"
+                                                        data-id="{{ $post->id }}"
+                                                        data-modal-toggle="confirmdelete-modal" id="delete_post"
+                                                        class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
+                                                        type="button">
+                                                        <i class="fa-solid fa-trash-can"></i> Delete post
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    @endif
                                 </div>
                                 <!-- Title + Caption + Pic -->
                                 <div class="flex flex-col mt-4">
                                     <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
                                     <p class="mt-2 text-[14px] md:text-base break-words">
-                                        {{ $post->content }}
+                                        {!! $post->content !!}
                                     </p>
                                     @if ($post->photo != null)
                                         <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
@@ -204,11 +207,6 @@
                         <!-- Modal body -->
                         <div class="p-6 space-y-6">
                             <div class="grid md:grid-cols-12 md:px-6 space-y-2 md:space-y-0 md:space-x-6">
-                                <!-- <button</button> -->
-                                {{-- <button
-                            class="md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-neutral-200 text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded">
-                            <i class="flex fa-solid fa-file-image text-2xl"></i><span>Add Image</span>
-                        </button> --}}
                                 <input type="file" id="cp-fi" accept="image/*,image/heif,image/heic"
                                     name="photo" hidden />
                                 <button
@@ -222,11 +220,10 @@
                                 </button>
                                 <div class="md:col-span-7 lg:col-span-9 flex flex-col">
                                     <input id="create-title"
-                                        class="p-2 h-[56px] text-lg bg-neutral-200 text-neutral-500 rounded focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                        class="mb-2 p-2 h-[56px] text-lg bg-neutral-200 text-neutral-500 rounded focus:ring-4 focus:outline-none focus:ring-blue-300"
                                         placeholder="Enter blog title" name="title" />
                                     <span class="validation-error error-title text-red-500">
-                                        {{ $errors->first('title') }}
-                                    </span>
+                                        {{ $errors->first('title') }}</span>
                                     <textarea id="create-description"
                                         class="p-2 h-full text-lg bg-neutral-200 text-neutral-500 mt-2 md:mt-4 border-none rounded focus:ring-4 focus:outline-none focus:ring-blue-300 resize-none"
                                         placeholder="Add a description" name="content"></textarea>
@@ -256,7 +253,7 @@
         </div>
     @endif
     <!-- Edit post modal -->
-    <div id="editpost-modal" tabindex="-1"
+    <div id="editpost-modal" tabindex="-1" data-modal-backdrop="static"
         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-7xl max-h-full">
             <!-- Modal content -->
@@ -272,40 +269,53 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <div class="grid md:grid-cols-12 md:px-6 space-y-2 md:space-y-0 md:space-x-6">
-                        <button
-                            class="group md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-cover text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded"
-                            style="background-image: url(/src/images/duck.jpg)">
-                            <div
-                                class="flex w-full h-full text-white font-medium items-center justify-center group-hover:bg-black opacity-50 focus:bg-black">
-                                <i class="hidden group-hover:flex focus:flex fa-solid fa-pen"></i>
-                                <p class="hidden group-hover:flex focus:flex ml-2">Change Image</p>
-                            </div>
-                        </button>
+                <form action="" method="POST" id="editpost-form">
+                    @csrf
+                    <input type="text" id="epidxcnds" hidden />
+                    <div class="p-6 space-y-6">
+                        <div class="grid md:grid-cols-12 md:px-6 space-y-2 md:space-y-0 md:space-x-6">
+                            <input type="file" id="ep-fi" accept="image/*,image/heif,image/heic" name="photo"
+                                hidden />
+                            <button
+                                class="edfvbf group md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-cover text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded"
+                                style="background-image: url('{{ asset('assets/images/add-image.png') }}')">
+                                <div
+                                    class="flex w-full h-full text-white font-medium items-center justify-center group-hover:bg-black opacity-50 focus:bg-black">
+                                    <i class="hidden group-hover:flex focus:flex fa-solid fa-pen"></i>
+                                    <p class="hidden group-hover:flex focus:flex ml-2">Change Image</p>
+                                </div>
+                            </button>
 
-                        <div class="md:col-span-7 lg:col-span-9 flex flex-col">
-                            <input
-                                class="p-2 h-[56px] text-lg bg-neutral-200 text-neutral-500 rounded focus:ring-4 focus:outline-none focus:ring-blue-300"
-                                placeholder="Enter blog title" />
-                            <textarea
-                                class="p-2 h-full text-lg bg-neutral-200 text-neutral-500 mt-2 md:mt-4 border-none rounded focus:ring-4 focus:outline-none focus:ring-blue-300 resize-none"
-                                placeholder="Add a description"></textarea>
+                            <div class="md:col-span-7 lg:col-span-9 flex flex-col">
+                                <input id="edit-title" name="title"
+                                    class="p-2 mb-2 h-[56px] text-lg bg-neutral-200 text-neutral-500 rounded focus:ring-4 focus:outline-none focus:ring-blue-300"
+                                    placeholder="Enter blog title" />
+                                <span class="validation-error error-title text-red-500">
+                                    {{ $errors->first('title') }}</span>
+                                <textarea id="edit-description" name="content"
+                                    class="p-2 h-full text-lg bg-neutral-200 text-neutral-500 mt-2 md:mt-4 border-none rounded focus:ring-4 focus:outline-none focus:ring-blue-300 resize-none"
+                                    placeholder="Add a description"></textarea>
+                                <span class="validation-error error-content text-red-500">
+                                    {{ $errors->first('content') }} </span>
+                                <span class="validation-error error-photo text-red-500">
+                                    {{ $errors->first('photo') }}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Modal footer -->
-                <div
-                    class="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-hide="editpost-modal" type="button"
-                        class="text-white bg-indigo-900 hover:bg-indigo-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm w-[180px] py-2.5 text-center">
-                        Post
-                    </button>
-                    <button data-modal-hide="editpost-modal" type="button"
-                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded border border-gray-200 text-sm font-medium w-[180px] py-2.5 hover:text-gray-900 focus:z-10">
-                        Cancel
-                    </button>
-                </div>
+                    <!-- Modal footer -->
+                    <div
+                        class="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button type="submit"
+                            class="text-white bg-indigo-900 hover:bg-indigo-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm w-[180px] py-2.5 text-center">
+                            Post
+                        </button>
+                        <button data-modal-hide="editpost-modal" type="button"
+                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded border border-gray-200 text-sm font-medium w-[180px] py-2.5 hover:text-gray-900 focus:z-10">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -393,45 +403,47 @@
             </div>
         </div>
     </div>
-    <!-- Delete modal -->
-    <div id="confirmdelete-modal" tabindex="-1"
-        class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-lg shadow">
-                <button type="button"
-                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                    data-modal-hide="confirmdelete-modal">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-                <div class="p-6 text-center">
-                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete this post?</h3>
-                    <form action="{{ route('post.destroy') }}" method="POST">
-                        @csrf
-                        <input type="text" id="post_id" name="post_id" hidden>
-                        <button type=submit
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                            Confirm
-                        </button>
-                    </form>
-                    <button data-modal-hide="confirmdelete-modal" type="button"
-                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
-                        Cancel
+    @if ($post->user->id == Auth::user()->id)
+        <!-- Delete modal -->
+        <div id="confirmdelete-modal" tabindex="-1"
+            class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-md max-h-full">
+                <div class="relative bg-white rounded-lg shadow">
+                    <button type="button"
+                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                        data-modal-hide="confirmdelete-modal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
                     </button>
+                    <div class="p-6 text-center">
+                        <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete this post?</h3>
+                        <form action="{{ route('post.destroy') }}" method="POST">
+                            @csrf
+                            <input type="text" id="post_id" name="post_id" hidden>
+                            <button type=submit
+                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                Confirm
+                            </button>
+                        </form>
+                        <button data-modal-hide="confirmdelete-modal" type="button"
+                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')
@@ -445,6 +457,30 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            let editor1;
+            let editor2;
+
+            ClassicEditor
+                .create(document.querySelector('#create-description'), {
+                    toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+                }).then(newEditor => {
+                    editor1 = newEditor
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            ClassicEditor
+                .create(document.querySelector('#edit-description'), {
+                    toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+                }).then(newEditor => {
+                    editor2 = newEditor
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
 
             $("button#post-see-more").on("click", function(e) {
                 e.preventDefault()
@@ -517,7 +553,6 @@
                     success: function(response) {
                         location.href =
                             "{{ route('profile', ['username' => Auth::user()->username]) }}"
-                        clearSignupForm()
                         isLoading(0)
                     },
                     error: function(xhr) {
@@ -526,6 +561,39 @@
                             $('#createpost-form').find('span.validation-error').text('');
                             $.each(errors, function(s, v) {
                                 $('#createpost-form').find('span.error-' + s).text(v[
+                                    0]);
+                            });
+                        }
+                        isLoading(0)
+                    }
+                });
+            });
+
+            $("#editpost-form").submit(function(e) {
+                e.preventDefault();
+                isLoading(1)
+                let form = document.getElementById("editpost-form")
+                let fd = new FormData(form);
+                let id = $("#epidxcnds").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/update/post/" + id,
+                    data: fd,
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        location.href =
+                            "{{ route('profile', ['username' => Auth::user()->username]) }}"
+                        isLoading(0)
+                    },
+                    error: function(xhr) {
+                        if (xhr.status == 422) {
+                            var errors = xhr.responseJSON.errors;
+                            $('#editpost-form').find('span.validation-error').text('');
+                            $.each(errors, function(s, v) {
+                                $('#editpost-form').find('span.error-' + s).text(v[
                                     0]);
                             });
                         }
@@ -547,12 +615,17 @@
                 $("#cp-fi").click();
             });
 
-            function readURL(input) {
+            $(".edfvbf").click(function(e) {
+                e.preventDefault();
+                $("#ep-fi").click();
+            });
+
+            function readURL(input, selector) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
-                        $(".xcjsddc").css("background-image", "url('" + e.target.result + "')")
+                        $(selector).css("background-image", "url('" + e.target.result + "')")
                     }
 
                     reader.readAsDataURL(input.files[0]);
@@ -562,7 +635,13 @@
             $("#cp-fi").change(function(e) {
                 e.preventDefault();
 
-                readURL(this);
+                readURL(this, ".xcjsddc");
+            });
+
+            $("#ep-fi").change(function(e) {
+                e.preventDefault();
+
+                readURL(this, ".edfvbf");
             });
 
             $("#createpost-cancel").click(function(e) {
@@ -583,6 +662,27 @@
                 $val = $(this).data('id')
                 $("#post_id").val($val);
                 console.log($val)
+            });
+
+            $("button#edit_post").on('click', function(e) {
+                e.preventDefault();
+                let dataid = $(this).data("id");
+                $("#epidxcnds").val(dataid);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('post.edit') }}",
+                    data: {
+                        post_id: dataid
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        $("#edit_trigger").trigger("click");
+                        $("#edit-title").val(response.title);
+                        editor2.setData(response.content)
+                        $("button.edfvbf").css('background-image',
+                            'url("/storage/static/uploaded/' + response.photo + '")');
+                    }
+                });
             });
 
             $("#dp-file-upload").off().change(function(e) {

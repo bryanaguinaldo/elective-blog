@@ -43,7 +43,7 @@
                             <div class="flex flex-col mt-4">
                                 <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
                                 <p class="mt-2 text-[14px] md:text-base">
-                                    {{ $post->content }}
+                                    {!! $post->content !!}
                                 </p>
                                 @if ($post->photo != null)
                                     <a href="{{ route('post.show', ['id' => $post->id]) }}">
