@@ -64,122 +64,120 @@
                         </button>
                     </div>
                 @endif
-                @foreach ($user->posts->reverse() as $post)
-                    <!-- Post -->
-                    <div>
-                        <div class="flex flex-col items-center mb-2 mx-6">
-                            <!-- Post {{ $post->id }} -->
-                            <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
-                                <!-- User -->
-                                <div class="flex w-full justify-between">
-                                    <div class="flex items-center">
-                                        <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
-                                            style="background-image: url('{{ asset('storage/static/images') . '/' . $post->user->profile_picture }}')">
-                                        </div>
-                                        <div class="mx-4">
-                                            <div class="flex items-center font-bold text-[14px] md:text-base">
-                                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
-                                                @if ($user->verified == 1)
-                                                    <img src="{{ asset('assets/images/verified.svg') }}"
-                                                        class="ml-2 h-4 w-4" />
-                                                @endif
+                {{-- @foreach ($user->posts->reverse() as $post)
+                        <!-- Post -->
+                        <div>
+                            <div class="flex flex-col items-center mb-2 mx-6">
+                                <!-- Post {{ $post->id }} -->
+                                <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
+                                    <!-- User -->
+                                    <div class="flex w-full justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
+                                                style="background-image: url('{{ asset('storage/static/images') . '/' . $post->user->profile_picture }}')">
                                             </div>
-                                            <div class="text-neutral-500 text-[14px] md:text-base">
-                                                {{ \Carbon\Carbon::now()->subDays(7) >= \Carbon\Carbon::parse($post->created_at) ? $post->created_at->format('F d, Y') : $post->created_at->diffForHumans() }}
+                                            <div class="mx-4">
+                                                <div class="flex items-center font-bold text-[14px] md:text-base">
+                                                    {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                                                    @if ($user->verified == 1)
+                                                        <img src="{{ asset('assets/images/verified.svg') }}"
+                                                            class="ml-2 h-4 w-4" />
+                                                    @endif
+                                                </div>
+                                                <div class="text-neutral-500 text-[14px] md:text-base">
+                                                    {{ \Carbon\Carbon::now()->subDays(7) >= \Carbon\Carbon::parse($post->created_at) ? $post->created_at->format('F d, Y') : $post->created_at->diffForHumans() }}
+                                                </div>
                                             </div>
                                         </div>
+                                        @if ($post->user->id == Auth::user()->id)
+                                            <!-- Menu Dropdown -->
+                                            <button id="dropdownMenuButton{{ $post->id }}"
+                                                data-dropdown-toggle="menu-dropdown{{ $post->id }}"
+                                                class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
+                                                type="button">
+                                                <i class="fa-solid fa-ellipsis-h"></i>
+                                            </button>
+                                            <!-- User dropdown component -->
+                                            <div id="menu-dropdown{{ $post->id }}"
+                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
+                                                    <li>
+                                                        <button type="hidden" data-modal-target="editpost-modal"
+                                                            data-modal-toggle="editpost-modal" id="edit_trigger"></button>
+                                                        <button data-id="{{ $post->id }}" id="edit_post"
+                                                            class="block w-full text-start px-4 py-2 hover:bg-gray-100"
+                                                            type="button">
+                                                            <i class="fa-solid fa-edit"></i> Edit post
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button data-modal-target="confirmdelete-modal"
+                                                            data-id="{{ $post->id }}"
+                                                            data-modal-toggle="confirmdelete-modal" id="delete_post"
+                                                            class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
+                                                            type="button">
+                                                            <i class="fa-solid fa-trash-can"></i> Delete post
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        @endif
                                     </div>
-                                    @if ($post->user->id == Auth::user()->id)
-                                        <!-- Menu Dropdown -->
-                                        <button id="dropdownMenuButton{{ $post->id }}"
-                                            data-dropdown-toggle="menu-dropdown{{ $post->id }}"
-                                            class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
-                                            type="button">
-                                            <i class="fa-solid fa-ellipsis-h"></i>
-                                        </button>
-                                        <!-- User dropdown component -->
-                                        <div id="menu-dropdown{{ $post->id }}"
-                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
-                                                <li>
-                                                    <button type="hidden" data-modal-target="editpost-modal"
-                                                        data-modal-toggle="editpost-modal" id="edit_trigger"></button>
-                                                    <button data-id="{{ $post->id }}" id="edit_post"
-                                                        class="block w-full text-start px-4 py-2 hover:bg-gray-100"
-                                                        type="button">
-                                                        <i class="fa-solid fa-edit"></i> Edit post
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button data-modal-target="confirmdelete-modal"
-                                                        data-id="{{ $post->id }}"
-                                                        data-modal-toggle="confirmdelete-modal" id="delete_post"
-                                                        class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
-                                                        type="button">
-                                                        <i class="fa-solid fa-trash-can"></i> Delete post
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endif
-                                </div>
-                                <!-- Title + Caption + Pic -->
-                                <div class="flex flex-col mt-4">
-                                    <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
-                                    <p class="mt-2 text-[14px] md:text-base break-words">
-                                        {!! $post->content !!}
-                                    </p>
-                                    @if ($post->photo != null)
-                                        <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
-                                            class="w-full mt-4 aspect-square bg-cover"
-                                            style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
-                                    @endif
+                                    <!-- Title + Caption + Pic -->
+                                    <div class="flex flex-col mt-4">
+                                        <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
+                                        <p class="mt-2 text-[14px] md:text-base break-words">
+                                            {!! $post->content !!}
+                                        </p>
+                                        @if ($post->photo != null)
+                                            <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
+                                                class="w-full mt-4 aspect-square bg-cover"
+                                                style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach --}}
+                <div class="post_data">
+                    @include('profile-data')
+                </div>
             </div>
             <!-- Other users -->
             <div class="hidden xl:flex lg:flex-col lg:col-span-5">
-                <div class="mb-4">
-                    <p class="text-[18px] md:text-xl font-bold">Check out other users</p>
-                </div>
-                @foreach ($others as $other)
-                    <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
-                        <div class="flex flex-col w-full">
-                            <!-- User and view profile btn -->
-                            <div class="flex w-full justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-[40px] h-[40px] aspect-square bg-cover bg-black rounded-full"
-                                        style="background-image: url('{{ asset('storage/static/images') . '/' . $other->profile_picture }}'); background-size: cover">
-                                    </div>
-                                    <div class="mx-4">
-                                        <div class="font-bold text-[14px] md:text-base">
-                                            {{ $other->first_name . ' ' . $other->last_name }}</div>
-                                        <div class="text-neutral-500 text-[14px] md:text-base">{{ '@' . $other->username }}
+                <div class="sticky top-10">
+
+                    <div class="mb-4">
+                        <p class="text-[18px] md:text-xl font-bold">Check out other users</p>
+                    </div>
+                    @foreach ($others as $other)
+                        <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
+                            <div class="flex flex-col w-full">
+                                <!-- User and view profile btn -->
+                                <div class="flex w-full justify-between">
+                                    <div class="flex items-center">
+                                        <div class="w-[40px] h-[40px] aspect-square bg-cover bg-black rounded-full"
+                                            style="background-image: url('{{ asset('storage/static/images') . '/' . $other->profile_picture }}'); background-size: cover">
+                                        </div>
+                                        <div class="mx-4">
+                                            <div class="font-bold text-[14px] md:text-base">
+                                                {{ $other->first_name . ' ' . $other->last_name }}</div>
+                                            <div class="text-neutral-500 text-[14px] md:text-base">
+                                                {{ '@' . $other->username }}
+                                            </div>
                                         </div>
                                     </div>
+                                    <a href="{{ route('profile', ['username' => $other->username]) }}">
+                                        <button
+                                            class="block w-max h-max text-[14px] md:text-base font-bold text-white bg-indigo-900 hover:bg-indigo-950 focus:outline-none rounded px-5 py-2.5 text-center">
+                                            <span class="text-sm">View profile</span>
+                                        </button>
+                                    </a>
                                 </div>
-                                <a href="{{ route('profile', ['username' => $other->username]) }}">
-                                    <button
-                                        class="block w-max h-max text-[14px] md:text-base font-bold text-white bg-indigo-900 hover:bg-indigo-950 focus:outline-none rounded px-5 py-2.5 text-center">
-                                        <span class="text-sm">View profile</span>
-                                    </button>
-                                </a>
                             </div>
-                            {{-- <!-- 3 images -->
-                        <div class="grid grid-cols-3 gap-2 w-full h-full mt-6">
-                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
-                                style="background-image: url(https://picsum.photos/1920/1080?random=2)"></div>
-                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
-                                style="background-image: url(https://picsum.photos/1920/1080?random=3)"></div>
-                            <div class="col-span-1 w-full h-full aspect-square bg-cover bg-black hover:bg-blend-multiply hover:bg-opacity-50"
-                                style="background-image: url(https://picsum.photos/1920/1080?random=4)"></div>
-                        </div> --}}
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -207,8 +205,8 @@
                         <!-- Modal body -->
                         <div class="p-6 space-y-6">
                             <div class="grid md:grid-cols-12 md:px-6 space-y-2 md:space-y-0 md:space-x-6">
-                                <input type="file" id="cp-fi" accept="image/*,image/heif,image/heic"
-                                    name="photo" hidden />
+                                <input type="file" id="cp-fi" accept="image/*,image/heif,image/heic" name="photo"
+                                    hidden />
                                 <button
                                     class="xcjsddc group md:col-span-5 lg:col-span-3 flex flex-col items-center justify-center text-lg aspect-square bg-cover text-neutral-500 font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded"
                                     style="background-image: url('{{ asset('assets/images/add-image.png') }}')">
@@ -403,7 +401,7 @@
             </div>
         </div>
     </div>
-    @if ($post->user->id == Auth::user()->id)
+    @if ($user->id == Auth::user()->id)
         <!-- Delete modal -->
         <div id="confirmdelete-modal" tabindex="-1"
             class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -450,6 +448,7 @@
     <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-cropper.min.js') }}"></script>
     <script src="{{ asset('assets/js/nouislider.min.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -457,6 +456,34 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            const evt = new Event("DOMContentLoaded", {
+                bubbles: true,
+                cancelable: false
+            });
+            document.dispatchEvent(evt);
+
+            function fetch_data(page) {
+                $.ajax({
+                    type: "get",
+                    url: "?page=" + page,
+                }).done(function(data) {
+                    if (data.data == "") {
+                        return;
+                    }
+                    $(".post_data").append(data.data);
+                });
+            }
+
+            var page = 1;
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                    page++;
+                    fetch_data(page);
+                    initDropdowns()
+                }
+            });
+
 
             let editor1;
             let editor2;

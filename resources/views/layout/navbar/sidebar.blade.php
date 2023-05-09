@@ -12,7 +12,7 @@
     class="fixed top-0 left-0 z-40 w-64 lg:w-96 h-screen transition-transform -translate-x-full sm:translate-x-0 border-r-2 border-gray-200"
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-white">
-        <a href="#" class="flex items-center pl-2.5 mb-5">
+        <a href="{{ route('home') }}" class="flex items-center pl-2.5 mb-5">
             <!-- <img src="/src/images/hotfog.png" class="h-6 mr-3 sm:h-7" alt="Logo" /> -->
             <span class="self-center text-xl font-bold whitespace-nowrap text-indigo-900">Hatdog Logo</span>
         </a>
@@ -32,7 +32,8 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center p-2 text-neutral-900 rounded-lg hover:bg-gray-100">
+                <a href="{{ route('about') }}"
+                    class="flex items-center p-2 text-neutral-900 rounded-lg hover:bg-gray-100">
                     <i class="fa-solid fa-circle-info"></i>
                     <span class="flex-1 ml-3 whitespace-nowrap">About</span>
                 </a>

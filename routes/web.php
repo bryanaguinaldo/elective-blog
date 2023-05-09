@@ -40,6 +40,8 @@ Route::middleware("auth", "verified")->group(function () {
     Route::get("/", [ViewController::class, "home"])->name('home');
     Route::get("/u/{username}", [ViewController::class, "profile"])->name("profile");
 
+    Route::get('/about', [ViewController::class, "about"])->name("about");
+
     Route::get("/settings", [ViewController::class, "settings"])->name("settings");
     Route::post("/settings/update/password", [MiscFunctionsController::class, "changePassword"])->name("settings.update_password");
     Route::post("/settings/update/information", [MiscFunctionsController::class, "changeInformation"])->name("settings.update_information");

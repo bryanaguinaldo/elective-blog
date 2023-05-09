@@ -156,9 +156,19 @@ class ViewController extends Controller
     public function profile($username)
     {
         $others = User::where('id', '!=', Auth::user()->id)->inRandomOrder()->limit(5)->get();
-        $user = User::where("username", $username)->first();
+        $user = User::with('posts')->where("username", $username)->first();
+
+        if ($user != null) {
+            $posts = Post::with('user')->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(4);
+
+            if (request()->ajax()) {
+                $view = view('profile-data')->with(['posts' => $posts])->render();
+                return response()->json(['data' => $view]);
+            }
+        }
+
         if (!$user == null) {
-            return view("profile")->with(["user" => $user, 'others' => $others]);
+            return view("profile")->with(["user" => $user, 'others' => $others, 'posts' => $posts]);
         }
         return abort(404);
     }
@@ -166,12 +176,21 @@ class ViewController extends Controller
     public function home()
     {
         $others = User::where('id', '!=', Auth::user()->id)->inRandomOrder()->limit(5)->get();
-        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate(5);
+        if (request()->ajax()) {
+            $view = view('home-data')->with(['posts' => $posts])->render();
+            return response()->json(['data' => $view]);
+        }
         return view('home')->with(['posts' => $posts, 'others' => $others]);
     }
 
     public function settings()
     {
         return view('settings');
+    }
+
+    public function about()
+    {
+        return view("about");
     }
 }

@@ -41,7 +41,7 @@
                 <!-- Post content -->
                 <div class="font-bold text-lg lg:text-2xl mt-6">{{ $post->title }}</div>
                 <div class="text-xs sm:text-base text-justify my-2 text-clip" style="overflow-y: auto">
-                    {{ $post->content }}
+                    {!! $post->content !!}
                 </div>
             </div>
         </div>
