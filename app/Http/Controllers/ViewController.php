@@ -186,7 +186,8 @@ class ViewController extends Controller
 
     public function settings()
     {
-        return view('settings');
+        $user = User::where('id', Auth::user()->id)->first();
+        return view('settings')->with(['user' => $user]);
     }
 
     public function about()
