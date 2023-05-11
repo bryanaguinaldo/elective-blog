@@ -1,7 +1,7 @@
 @extends('layout.view-post')
 
 @section('content')
-    <div class="w-full h-screen flex max-h-[90vh]">
+    <div class="w-full h-screen flex">
         <!-- Content -->
         <div class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-12 w-full lg:h-full">
             <!-- Image -->
