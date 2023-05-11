@@ -1,8 +1,6 @@
 @extends('layout.base')
 
 @section('subhead')
-    <title>Resale - Dashboard</title>
-    <link href="http://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/form-range.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/nouislider.css') }}" />
@@ -13,13 +11,13 @@
         <div class="grid grid-cols-12 gap-6 w-max-full">
             <div class="col-span-12 xl:col-span-7 h-max">
                 <!-- Cover photo -->
-                <div class="w-full h-[180px] md:h-[256px] rounded bg-cover"
+                <div class="w-full h-[180px] h-[180px] md:h-[256px] rounded bg-cover"
                     style="background-image: url(https://picsum.photos/1980/300)">
                     <div class="flex flex-col w-full h-full rounded bg-black bg-opacity-75">
                         <!-- Settings btn -->
-                        <a href="#" class="flex justify-end p-4 text-white"><i class="fa-solid fa-cog"></i></a>
+                        <a class="flex justify-end p-4 text-white opacity-0"><i class="fa-solid fa-cog"></i></a>
                         <!-- Profile photo -->
-                        <div class="flex translate-y-20 w-[100px] md:w-[190px] h-[100px] md:h-[190px] rounded-full bg-black ml-6 border-4 md:border-8 border-white drop-shadow-lg items-end justify-end"
+                        <div class="flex translate-y-16 md:translate-y-20 w-[120px] md:w-[190px] h-[120px] md:h-[190px] rounded-full bg-black ml-6 border-4 md:border-8 border-white drop-shadow-lg items-end justify-end"
                             style="background-image: url('{{ asset('storage/static/images') . '/' . $user->profile_picture }}'); background-size: cover">
                             <!-- Edit profile photo btn -->
                             @if (Auth::user()->username == $user->username)
@@ -38,7 +36,7 @@
                     </div>
                 </div>
                 <!-- User info -->
-                <div class="mt-20 mx-6">
+                <div class="mt-16 md:mt-20 mx-6">
                     <div class="flex items-center space-x-2">
                         <p class="font-bold text-[18px] md:text-[32px]">{{ $user->first_name . ' ' . $user->last_name }}
                         </p>
@@ -389,7 +387,7 @@
                     <h3 class="mb-5 text-lg font-normal text-gray-500">
                         Would you like to confirm the change of your profile picture?
                     </h3>
-                    <button type="button" class="confirm-cropped-upload"
+                    <button type="button"
                         class="confirm-cropped-upload text-white bg-indigo-900 hover:bg-indigo-950 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                         Confirm
                     </button>
@@ -432,11 +430,11 @@
                                 class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                 Confirm
                             </button>
+                            <button data-modal-hide="confirmdelete-modal" type="button"
+                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                                Cancel
+                            </button>
                         </form>
-                        <button data-modal-hide="confirmdelete-modal" type="button"
-                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
-                            Cancel
-                        </button>
                     </div>
                 </div>
             </div>

@@ -61,7 +61,7 @@
                     </p>
                     @if ($post->photo != null)
                         <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
-                            class="w-full mt-4 aspect-square bg-cover"
+                            class="w-full mt-4 aspect-square bg-cover bg-center"
                             style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
                     @endif
                 </div>

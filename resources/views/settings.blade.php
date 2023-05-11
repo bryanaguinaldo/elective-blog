@@ -28,7 +28,7 @@
                 <div class="grid grid-cols-12 gap-6 w-full h-max">
                     <div class="col-span-12 lg:col-span-6">
                         <label for="firstname" class="block font-bold mb-2 text-xs md:text-base">First name</label>
-                        <input type="text" id="firstname" name="first_name" value={{ Auth::user()->first_name }}
+                        <input type="text" id="firstname" name="first_name" value="{{ Auth::user()->first_name }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                             required />
                         @error('first_name')

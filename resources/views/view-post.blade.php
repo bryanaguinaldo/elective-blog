@@ -3,19 +3,18 @@
 @section('content')
     <div class="w-full h-screen flex max-h-[90vh]">
         <!-- Content -->
-        <div class="grid lg:grid-cols-12 w-full h-full">
+        <div class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-12 w-full lg:h-full">
             <!-- Image -->
-            <div class="col-span-7 flex w-full h-screen bg-black items-center justify-center">
+            <div class="row-span-1 lg:col-span-7 flex w-full h-[50vh] lg:h-screen bg-black items-center justify-center">
                 <img src="{{ asset('storage/static/uploaded') . '/' . $post->photo }}"
                     class="m-auto object-contain w-auto h-full" />
             </div>
             <!-- Caption -->
-            <div class="col-span-5 bg-white h-full px-6 sm:px-12 py-6 overflow-y-scroll">
+            <div class="row-span-1 lg:col-span-5 bg-white lg:h-full px-6 sm:px-12 py-6 overflow-y-scroll">
                 <div class="flex justify-end">
                     <a href="{{ url()->previous() == request()->url() ? route('home') : url()->previous() }}">
                         <button type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
-                            data-modal-hide="viewpost-modal">
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center">
                             <i class="flex fa-solid fa-x w-5 h-5 items-center justify-center"></i>
                             <span class="sr-only">Close modal</span>
                         </button>

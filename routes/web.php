@@ -35,6 +35,12 @@ Route::middleware("guest")->group(function () {
 });
 
 Route::middleware("auth", "verified")->group(function () {
+    Route::get('/message/bryan', [ViewController::class, 'bryan'])->name('message.bryan');
+    Route::get('/message/sachi', [ViewController::class, 'sachi'])->name('message.sachi');
+    Route::get('/message/vincent', [ViewController::class, 'vincent'])->name('message.vincent');
+    Route::get('/message/lex', [ViewController::class, 'lex'])->name('message.lex');
+    Route::get('/message/chi', [ViewController::class, 'chi'])->name('message.chi');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get("/", [ViewController::class, "home"])->name('home');

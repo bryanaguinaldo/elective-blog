@@ -58,7 +58,7 @@
                 </div>
             </div>
             <!-- Other users -->
-            <div class="hidden xl:flex lg:flex-col lg:col-span-5 h-screen">
+            <div class="hidden xl:flex lg:flex-col lg:col-span-5">
                 <div class="sticky top-10">
                     <div class="mb-4">
                         <p class="text-[18px] md:text-xl font-bold">Check out other users</p>

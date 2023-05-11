@@ -34,7 +34,7 @@
             </p>
             @if ($post->photo != null)
                 <a href="{{ route('post.show', ['id' => $post->id]) }}">
-                    <button class="w-full mt-4 aspect-square bg-cover"
+                    <button class="w-full mt-4 aspect-square bg-cover bg-center"
                         style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></button>
                 </a>
             @endif
