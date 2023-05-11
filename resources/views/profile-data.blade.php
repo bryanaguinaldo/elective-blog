@@ -14,6 +14,8 @@
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                                 @if ($post->user->verified == 1)
                                     <img src="{{ asset('assets/images/verified.svg') }}" class="ml-2 h-4 w-4" />
+                                @elseif ($post->user->verified == 2)
+                                <img src="{{ asset('assets/images/amogus.png') }}" class="ml-2 h-4 w-4" />
                                 @endif
                             </div>
                             <div class="text-neutral-500 text-[14px] md:text-base">
@@ -55,10 +57,10 @@
                 </div>
                 <!-- Title + Caption + Pic -->
                 <div class="flex flex-col mt-4">
-                    <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
-                    <p class="mt-2 text-[14px] md:text-base break-words">
-                        {!! $post->content !!}
-                    </p>
+                <div class="text-[18px] md:text-xl font-bold break-words">{{ $post->title }}</div>
+                <div class="mt-2 text-[14px] md:text-base break-words">
+                    {!! $post->content !!}
+                </div>
                     @if ($post->photo != null)
                         <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
                             class="w-full mt-4 aspect-square bg-cover bg-center"

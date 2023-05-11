@@ -30,6 +30,8 @@
                             {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             @if ($post->user->verified == 1)
                                 <img src="{{ asset('assets/images/verified.svg') }}" class="ml-2 h-4 w-4" />
+                            @elseif($post->user->verified == 2)
+                                <img src="{{ asset('assets/images/amogus.png') }}" class="ml-2 h-4 w-4" />
                             @endif
                         </div>
                         <div class="text-neutral-500 text-[14px] md:text-base">

@@ -38,7 +38,7 @@
                     <div class="col-span-12 lg:col-span-6">
                         <label for="lastname" class="block font-bold mb-2 text-xs md:text-base">Last
                             name</label>
-                        <input type="text" id="lastname" name="last_name" value={{ $user->last_name }}
+                        <input type="text" id="lastname" name="last_name" value="{{ $user->last_name }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-xs md:text-sm rounded focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                             required />
                         @error('last_name')

@@ -159,7 +159,7 @@ class ViewController extends Controller
         $user = User::with('posts')->where("username", $username)->first();
 
         if ($user != null) {
-            $posts = Post::with('user')->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(12);
+            $posts = Post::with('user')->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(20);
 
             if (request()->ajax()) {
                 $view = view('profile-data')->with(['posts' => $posts])->render();
@@ -197,7 +197,7 @@ class ViewController extends Controller
 
     public function bryan()
     {
-        if (Auth::user()->username == "derechobayan") {
+        if (Auth::user()->id == 100000000007) {
             return view("messages.bryan");
         }
         return abort(404);
@@ -205,7 +205,7 @@ class ViewController extends Controller
 
     public function sachi()
     {
-        if (Auth::user()->username == "derechobayan") {
+        if (Auth::user()->id == 100000000007) {
             return view("messages.sachi");
         }
         return abort(404);
@@ -213,7 +213,7 @@ class ViewController extends Controller
 
     public function vincent()
     {
-        if (Auth::user()->username == "derechobayan") {
+        if (Auth::user()->id == 100000000007) {
             return view("messages.vincent");
         }
         return abort(404);
@@ -221,7 +221,7 @@ class ViewController extends Controller
 
     public function lex()
     {
-        if (Auth::user()->username == "derechobayan") {
+        if (Auth::user()->id == 100000000007) {
             return view("messages.lex");
         }
         return abort(404);
@@ -229,7 +229,7 @@ class ViewController extends Controller
 
     public function chi()
     {
-        if (Auth::user()->username == "derechobayan") {
+        if (Auth::user()->id == 100000000007) {
             return view("messages.chi");
         }
         return abort(404);

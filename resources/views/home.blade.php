@@ -44,8 +44,14 @@
                                             style="background-image: url('{{ asset('storage/static/images') . '/' . $other->profile_picture }}'); background-size: cover">
                                         </div>
                                         <div class="mx-4">
-                                            <div class="font-bold text-[14px] md:text-base">
-                                                {{ $other->first_name . ' ' . $other->last_name }}</div>
+                                            <div class="flex space-x-2 items-center font-bold text-[14px] md:text-base">
+                                                {{ $other->first_name . ' ' . $other->last_name }}
+                                                @if ($other->verified == 1)
+                                                    <img src="{{ asset('assets/images/verified.svg') }}" class="ml-2 h-4 w-4" />
+                                                @elseif ($other->verified == 2)
+                                                <img src="{{ asset('assets/images/amogus.png') }}" class="ml-2 h-4 w-4" />
+                                                @endif
+                                            </div>
                                             <div class="text-neutral-500 text-[14px] md:text-base">
                                                 {{ '@' . $other->username }}
                                             </div>

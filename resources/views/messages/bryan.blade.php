@@ -48,8 +48,7 @@
                         Sa POV
                         ko maraming matututo sa way ng pagtuturo niyo. Kaso late ka po palagi. Sabi mo po 7am pasok tapos
                         dadating
-                        po kayo 8am. Pag di niyo po ako binigyan ng uno, pagkakalat ko yung tinable niyo na nilait niyo
-                        tapos sasabihin ko sa faculty yung chunking dejk.
+                        po kayo 8am. Chunking tayo next time sir HAHAHAHAHAHAHA jk.
                     </p>
                     <p>- Bryan Aguinaldo</p>
                 </div>
