@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="p-6 md:p-10 sm:ml-64 lg:ml-96 w-max-full h-screen">
-        <div class="grid grid-cols-12 gap-6 w-max-full">
+        <div class="grid grid-cols-12 xl:gap-6 w-max-full">
             <div class="col-span-12 xl:col-span-7 h-max">
                 <!-- Cover photo -->
                 <div class="w-full h-[180px] h-[180px] md:h-[256px] rounded bg-cover"
@@ -28,7 +28,8 @@
                                 </form>
                                 <button data-modal-target="changedp-modal" data-modal-toggle="changedp-modal"
                                     id="show-changedp-modal" hidden></button>
-                                <button class="w-[40px] h-[40px] bg-white rounded-full drop-shadow-lg change-dp">
+                                <button class="w-[40px] h-[40px] bg-white rounded-full drop-shadow-lg change-dp p-auto"
+                                    id="change-dp-button">
                                     <i class="fa-solid fa-camera"></i>
                                 </button>
                             @endif
@@ -62,94 +63,35 @@
                         </button>
                     </div>
                 @endif
-                {{-- @foreach ($user->posts->reverse() as $post)
-                        <!-- Post -->
-                        <div>
-                            <div class="flex flex-col items-center mb-2 mx-6">
-                                <!-- Post {{ $post->id }} -->
-                                <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
-                                    <!-- User -->
-                                    <div class="flex w-full justify-between">
-                                        <div class="flex items-center">
-                                            <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
-                                                style="background-image: url('{{ asset('storage/static/images') . '/' . $post->user->profile_picture }}')">
-                                            </div>
-                                            <div class="mx-4">
-                                                <div class="flex items-center font-bold text-[14px] md:text-base">
-                                                    {{ $post->user->first_name . ' ' . $post->user->last_name }}
-                                                    @if ($user->verified == 1)
-                                                        <img src="{{ asset('assets/images/verified.svg') }}"
-                                                            class="ml-2 h-4 w-4" />
-                                                    @endif
-                                                </div>
-                                                <div class="text-neutral-500 text-[14px] md:text-base">
-                                                    {{ \Carbon\Carbon::now()->subDays(7) >= \Carbon\Carbon::parse($post->created_at) ? $post->created_at->format('F d, Y') : $post->created_at->diffForHumans() }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if ($post->user->id == Auth::user()->id)
-                                            <!-- Menu Dropdown -->
-                                            <button id="dropdownMenuButton{{ $post->id }}"
-                                                data-dropdown-toggle="menu-dropdown{{ $post->id }}"
-                                                class="flex justify-end p-4 text-neutral-500 hover:bg-gray-200 hover:text-gray-900 rounded outline-none"
-                                                type="button">
-                                                <i class="fa-solid fa-ellipsis-h"></i>
-                                            </button>
-                                            <!-- User dropdown component -->
-                                            <div id="menu-dropdown{{ $post->id }}"
-                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuButton">
-                                                    <li>
-                                                        <button type="hidden" data-modal-target="editpost-modal"
-                                                            data-modal-toggle="editpost-modal" id="edit_trigger"></button>
-                                                        <button data-id="{{ $post->id }}" id="edit_post"
-                                                            class="block w-full text-start px-4 py-2 hover:bg-gray-100"
-                                                            type="button">
-                                                            <i class="fa-solid fa-edit"></i> Edit post
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button data-modal-target="confirmdelete-modal"
-                                                            data-id="{{ $post->id }}"
-                                                            data-modal-toggle="confirmdelete-modal" id="delete_post"
-                                                            class="block w-full text-start px-4 py-2 text-red-600 hover:bg-gray-100"
-                                                            type="button">
-                                                            <i class="fa-solid fa-trash-can"></i> Delete post
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <!-- Title + Caption + Pic -->
-                                    <div class="flex flex-col mt-4">
-                                        <p class="text-[18px] md:text-xl font-bold">{{ $post->title }}</p>
-                                        <p class="mt-2 text-[14px] md:text-base break-words">
-                                            {!! $post->content !!}
-                                        </p>
-                                        @if ($post->photo != null)
-                                            <a href="{{ route('post.show', ['id' => $post->id]) }}" id="post-see-more"
-                                                class="w-full mt-4 aspect-square bg-cover"
-                                                style="background-image: url('{{ asset('storage/static/uploaded' . '/' . $post->photo) }}')"></a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach --}}
                 <div class="post_data">
                     @include('profile-data')
                 </div>
             </div>
             <!-- Other users -->
-            <div class="hidden xl:flex lg:flex-col lg:col-span-5">
-                <div class="sticky top-10">
-
-                    <div class="mb-4">
+            <div class="row-start-1 col-span-12 xl:row-auto xl:flex lg:flex-col xl:col-span-5 w-full">
+                <div class="xl:sticky top-10">
+                    <div class="relative w-full mb-4">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-500">
+                            <i class="fa-solid fa-search mt-1"></i>
+                        </div>
+                        <input type="text" id="search" autocomplete="off" data-dropdown-placement="bottom"
+                            class="bg-white border border-neutral-300 text-neutral-500 text-sm rounded focus:ring-indigo-900 focus:border-indigo-900 block w-full pl-10 p-4"
+                            placeholder="Search by username" />
+                    </div>
+                    <!-- Search dropdown -->
+                    <div class="relative w-full">
+                        <div id="dropdownUsers" class="z-10 hidden bg-white rounded-lg shadow w-full h-fit absolute">
+                            <ul class="w-full py-2 text-gray-700 search-results h-fit"
+                                aria-labelledby="dropdownUsersButton">
+                                <span class="w-full flex justify-center">No results found.</span>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hidden xl:block mb-4">
                         <p class="text-[18px] md:text-xl font-bold">Check out other users</p>
                     </div>
                     @foreach ($others as $other)
-                        <div class="w-full h-max bg-white rounded shadow p-4 mb-4">
+                        <div class="hidden xl:block w-full h-max bg-white rounded shadow p-4 mb-4">
                             <div class="flex flex-col w-full">
                                 <!-- User and view profile btn -->
                                 <div class="flex w-full justify-between">
@@ -440,19 +382,70 @@
             </div>
         </div>
     @endif
+    <!-- Error modal -->
+    <button id="show-error-modal" data-modal-toggle="error-modal"></button>
+    <div id="error-modal" tabindex="-1"
+        class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <button type="button"
+                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    data-modal-hide="error-modal">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-6 text-center">
+                    <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 error-message-modal"></h3>
+                    <button data-modal-hide="error-modal" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-cropper.min.js') }}"></script>
     <script src="{{ asset('assets/js/nouislider.min.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            function showDropdown() {
+                var dropdownUsers = document.getElementById("dropdownUsers");
+
+                if (dropdownUsers.classList.contains("hidden")) {
+                    dropdownUsers.classList.remove("hidden");
+                    dropdownUsers.classList.add("block");
+                }
+                document.addEventListener("click", function handleClickOutsideBox(event) {
+                    const search = document.getElementById("search");
+                    if (!search.contains(event.target)) {
+                        dropdownUsers.classList.remove("block");
+                        dropdownUsers.classList.add("hidden");
+                    }
+                });
+            }
+
+            $("#search").click(function(e) {
+                showDropdown()
             });
 
             const evt = new Event("DOMContentLoaded", {
@@ -710,10 +703,46 @@
                 });
             });
 
+            var typingTimer;
+            var doneTypingInterval = 500;
+            var $input = $("#search");
+
+            $input.on('keyup', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            $input.on('keydown', function() {
+                clearTimeout(typingTimer);
+            });
+
+            function doneTyping() {
+                var val = $("#search").val()
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('search') }}",
+                    data: {
+                        value: val
+                    },
+                    dataType: "json",
+                }).done(function(data) {
+                    if (!data) {
+                        $(".search-results").text("No results found.");
+                        $(".search-results").addClass("flex justify-center");
+                    } else {
+                        $(".search-results").html(data);
+                        $(".search-results").removeClass("flex justify-center");
+                    }
+                });
+            }
+
             $("#dp-file-upload").off().change(function(e) {
                 e.preventDefault();
                 console.log('test2')
-                // loading(".change-dp")
+                $(".change-dp").html(
+                    '<svg aria-hidden="true" role="status" class="m-auto w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="#000"/></svg>'
+                )
+                $("#change-dp-button").attr("disabled", true);
                 let form = document.getElementById("image-upload")
                 let fd = new FormData(form);
                 $.ajax({
@@ -725,7 +754,10 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // finishedLoadingUploadButton(".change-dp")
+                        $(".change-dp").html(
+                            '<i class="fa-solid fa-camera"></i>'
+                        )
+                        $("#change-dp-button").removeAttr("disabled");
                         if (response.status == 1) {
                             $.ajax({
                                 type: "POST",
@@ -904,10 +936,16 @@
                             });
                         }
                     },
-                    error: function(xhr) {
+                    error: function(xhr, response) {
+                        $(".change-dp").html(
+                            '<i class="fa-solid fa-camera"></i>'
+                        )
+                        $(".change-dp").removeAttr("disabled");
                         if (xhr.status == 422) {
-                            showModal("#error-modal");
+                            var data = xhr.responseJSON;
+                            $("#show-error-modal").trigger("click");
                             $("#dp-file-upload").val(null);
+                            $(".error-message-modal").text(data.message)
                         }
                     }
                 });

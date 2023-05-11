@@ -6,6 +6,7 @@ use App\Models\Thumbnail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ThumbnailController extends Controller
 {
@@ -31,6 +32,14 @@ class ThumbnailController extends Controller
     public function store(Request $request)
     {
         if (request()->ajax()) {
+            $validation = Validator::make($request->all(), [
+                'image' => "mime:jpeg,jpg,bmp,png|size:3072"
+            ]);
+
+            if ($validation->fails()) {
+                return response()->json($validation->errors());
+            }
+
             $file = $request->file('image');
 
             $filename = now()->timestamp . ".jpg";

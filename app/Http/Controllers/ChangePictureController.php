@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePhotoRequest;
 use App\Models\ChangePicture;
 use App\Models\ImageUpload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ChangePictureController extends Controller
 {
@@ -30,10 +32,12 @@ class ChangePictureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ChangePhotoRequest $request)
     {
         if (request()->ajax()) {
-            $file = $request->file('image');
+            $validated = $request->validated();
+
+            $file = $validated["image"];
 
             $filename = now()->timestamp . "." . $file->getClientOriginalExtension();
             $path = $file->storeAs('public/static/uploaded', $filename);

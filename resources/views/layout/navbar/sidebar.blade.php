@@ -13,8 +13,8 @@
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-white">
         <a href="{{ route('home') }}" class="flex items-center pl-2.5 mb-5">
-            <!-- <img src="/src/images/hotfog.png" class="h-6 mr-3 sm:h-7" alt="Logo" /> -->
-            <span class="self-center text-xl font-bold whitespace-nowrap text-indigo-900">Hatdog Logo</span>
+            <img src="/assets/images/pp.png" class="h-6 mr-3 sm:h-7" alt="Logo" />
+            <span class="self-center text-xl font-bold whitespace-nowrap text-indigo-900 text-black">Pen n' Pixel</span>
         </a>
         <ul class="space-y-2 font-medium">
             <li>

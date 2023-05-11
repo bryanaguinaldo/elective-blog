@@ -51,4 +51,17 @@ class MiscFunctionsController extends Controller
     {
         $users = User::where('id', '!=', Auth::user()->id)->inRandomOrder()->limit(5)->get();
     }
+
+    public function search(Request $request)
+    {
+        if (request()->ajax()) {
+            if ($request->value == null) {
+                return "";
+            }
+            $results = User::where('username', 'LIKE', '%' . $request->value . '%')->whereNot('username', Auth::user()->username)->limit(5)->get();
+            $view = view('search-results')->with(["results" => $results])->render();
+            return response()->json($view);
+        }
+        return abort(404);
+    }
 }

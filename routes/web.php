@@ -59,6 +59,8 @@ Route::middleware("auth", "verified")->group(function () {
     Route::post("/update/post/{id}", [ProfileController::class, "update"])->name("post.update");
     Route::post("/delete/post", [ProfileController::class, "destroy"])->name("post.destroy");
 
+    Route::post("/search/user", [MiscFunctionsController::class, "search"])->name("search");
+
 
     // BEGIN: Change Thumbnail Resource Requests
     Route::group(['prefix' => 'thumbnail'], function () {
