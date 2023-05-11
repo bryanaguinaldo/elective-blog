@@ -5,7 +5,7 @@
         <div class="flex w-full justify-between">
             <div class="flex items-center">
                 <a href="{{ route('profile', ['username' => $post->user->username]) }}">
-                    <div class="w-[40px] h-[40px] aspect-square bg-cover bg-red-500 rounded-full"
+                    <div class="w-[40px] h-[40px] aspect-square bg-cover bg-black rounded-full"
                         style="background-image: url('{{ asset('storage/static/images') . '/' . $post->user->profile_picture }}')">
                     </div>
                 </a>

@@ -45,8 +45,9 @@
                 <button type="button"
                     class="flex items-center w-full p-2 text-neutral-900 transition duration-75 rounded-lg group hover:bg-gray-100 outline-none"
                     aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                    <img src="{{ asset('storage/static/images') . '/' . Auth::user()->profile_picture }}"
-                        class="w-[40px] h-[40px] rounded-full aspect-square bg-cover hover:ring-4 hover:outline-none hover:ring-neutral-300" />
+                    <div style="background-image: url('{{ asset('storage/static/images') . '/' . Auth::user()->profile_picture }}')"
+                        class="bg-black w-[40px] h-[40px] rounded-full aspect-square bg-cover hover:ring-4 hover:outline-none hover:ring-neutral-300">
+                    </div>
                     <span class="flex-1 ml-3 text-left font-bold whitespace-nowrap"
                         sidebar-toggle-item>{{ Auth::user()->username }}</span>
                     <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
